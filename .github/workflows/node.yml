@@ -1,0 +1,28 @@
+name: Random Node.js CI
+
+on: [push]
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npx eslint .
+
+      - name: Build project
+        run: npm run build
+
+      - name: Celebrate success
+        if: success()
+        run: echo "🎉 Build and lint passed! Go team!"
